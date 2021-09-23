@@ -3,22 +3,21 @@
 pragma solidity ^0.6.12;
 pragma experimental ABIEncoderV2;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
-import "@openzeppelin/contracts/utils/Pausable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import "./interfaces/IERC20Permit.sol";
 import "./interfaces/IOpenOceanCaller.sol";
-import "./helpers/RevertReasonParser.sol";
-import "./helpers/UniversalERC20.sol";
+import "./libraries/RevertReasonParser.sol";
+import "./libraries/UniversalERC20.sol";
 
-contract OpenOceanExchange is Ownable, Pausable {
+contract OpenOceanExchange is OwnableUpgradeable, PausableUpgradeable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
     using UniversalERC20 for IERC20;
 
     uint256 private constant _PARTIAL_FILL = 0x01;
-    uint256 private constant _REQUIRES_EXTRA_ETH = 0x02;
-    uint256 private constant _SHOULD_CLAIM = 0x04;
+    uint256 private constant _SHOULD_CLAIM = 0x02;
 
     struct SwapDescription {
         IERC20 srcToken;
@@ -46,7 +45,10 @@ contract OpenOceanExchange is Ownable, Pausable {
         address referrer
     );
 
-    event Error(string reason);
+    function initialize() public initializer {
+        OwnableUpgradeable.__Ownable_init();
+        PausableUpgradeable.__Pausable_init();
+    }
 
     function swap(
         IOpenOceanCaller caller,
@@ -60,11 +62,7 @@ contract OpenOceanExchange is Ownable, Pausable {
         IERC20 srcToken = desc.srcToken;
         IERC20 dstToken = desc.dstToken;
 
-        if (flags & _REQUIRES_EXTRA_ETH != 0) {
-            require(msg.value > (srcToken.isETH() ? desc.amount : 0), "Invalid msg.value");
-        } else {
-            require(msg.value == (srcToken.isETH() ? desc.amount : 0), "Invalid msg.value");
-        }
+        require(msg.value == (srcToken.isETH() ? desc.amount : 0), "Invalid msg.value");
 
         if (flags & _SHOULD_CLAIM != 0) {
             require(!srcToken.isETH(), "Claim token is ETH");

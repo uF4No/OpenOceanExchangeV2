@@ -1,14 +1,11 @@
 {
-    "name": "1inch-v2-contracts",
+    "name": "openocean-v2-contracts",
     "version": "1.0.0",
-    "description": "1InchExchange core contracts",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:1inch-exchange/1inch-v2-contracts.git"
-    },
+    "description": "OpenOcean core contracts",
     "license": "MIT",
     "dependencies": {
-        "@openzeppelin/contracts": "^3.2.0"
+        "@openzeppelin/contracts": "^3.2.0",
+        "@openzeppelin/contracts-upgradeable": "^3.2.0"
     },
     "devDependencies": {
         "eslint": "^7.12.1",
