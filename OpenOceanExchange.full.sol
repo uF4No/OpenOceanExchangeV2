@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.2 <0.8.0;
-pragma experimental ABIEncoderV2;
 
 /**
  * @dev Collection of functions related to the address type
@@ -33,9 +32,7 @@ library AddressUpgradeable {
 
         uint256 size;
         // solhint-disable-next-line no-inline-assembly
-        assembly {
-            size := extcodesize(account)
-        }
+        assembly { size := extcodesize(account) }
         return size > 0;
     }
 
@@ -59,7 +56,7 @@ library AddressUpgradeable {
         require(address(this).balance >= amount, "Address: insufficient balance");
 
         // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
-        (bool success, ) = recipient.call{value: amount}("");
+        (bool success, ) = recipient.call{ value: amount }("");
         require(success, "Address: unable to send value, recipient may have reverted");
     }
 
@@ -82,7 +79,7 @@ library AddressUpgradeable {
      * _Available since v3.1._
      */
     function functionCall(address target, bytes memory data) internal returns (bytes memory) {
-        return functionCall(target, data, "Address: low-level call failed");
+      return functionCall(target, data, "Address: low-level call failed");
     }
 
     /**
@@ -91,11 +88,7 @@ library AddressUpgradeable {
      *
      * _Available since v3.1._
      */
-    function functionCall(
-        address target,
-        bytes memory data,
-        string memory errorMessage
-    ) internal returns (bytes memory) {
+    function functionCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
         return functionCallWithValue(target, data, 0, errorMessage);
     }
 
@@ -110,11 +103,7 @@ library AddressUpgradeable {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(
-        address target,
-        bytes memory data,
-        uint256 value
-    ) internal returns (bytes memory) {
+    function functionCallWithValue(address target, bytes memory data, uint256 value) internal returns (bytes memory) {
         return functionCallWithValue(target, data, value, "Address: low-level call with value failed");
     }
 
@@ -124,17 +113,12 @@ library AddressUpgradeable {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(
-        address target,
-        bytes memory data,
-        uint256 value,
-        string memory errorMessage
-    ) internal returns (bytes memory) {
+    function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage) internal returns (bytes memory) {
         require(address(this).balance >= value, "Address: insufficient balance for call");
         require(isContract(target), "Address: call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.call{value: value}(data);
+        (bool success, bytes memory returndata) = target.call{ value: value }(data);
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -154,11 +138,7 @@ library AddressUpgradeable {
      *
      * _Available since v3.3._
      */
-    function functionStaticCall(
-        address target,
-        bytes memory data,
-        string memory errorMessage
-    ) internal view returns (bytes memory) {
+    function functionStaticCall(address target, bytes memory data, string memory errorMessage) internal view returns (bytes memory) {
         require(isContract(target), "Address: static call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
@@ -166,11 +146,7 @@ library AddressUpgradeable {
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
-    function _verifyCallResult(
-        bool success,
-        bytes memory returndata,
-        string memory errorMessage
-    ) private pure returns (bytes memory) {
+    function _verifyCallResult(bool success, bytes memory returndata, string memory errorMessage) private pure returns(bytes memory) {
         if (success) {
             return returndata;
         } else {
@@ -192,8 +168,11 @@ library AddressUpgradeable {
 
 // File: @openzeppelin/contracts-upgradeable/proxy/Initializable.sol
 
+// SPDX-License-Identifier: MIT
+
 // solhint-disable-next-line compiler-version
 pragma solidity >=0.4.24 <0.8.0;
+
 
 /**
  * @dev This is a base contract to aid in writing upgradeable contracts, or any kind of contract that will be deployed
@@ -208,6 +187,7 @@ pragma solidity >=0.4.24 <0.8.0;
  * that all initializers are idempotent. This is not verified automatically as constructors are by Solidity.
  */
 abstract contract Initializable {
+
     /**
      * @dev Indicates that the contract has been initialized.
      */
@@ -245,7 +225,10 @@ abstract contract Initializable {
 
 // File: @openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.0 <0.8.0;
+
 
 /*
  * @dev Provides information about the current execution context, including the
@@ -262,8 +245,8 @@ abstract contract ContextUpgradeable is Initializable {
         __Context_init_unchained();
     }
 
-    function __Context_init_unchained() internal initializer {}
-
+    function __Context_init_unchained() internal initializer {
+    }
     function _msgSender() internal view virtual returns (address payable) {
         return msg.sender;
     }
@@ -272,13 +255,15 @@ abstract contract ContextUpgradeable is Initializable {
         this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
         return msg.data;
     }
-
     uint256[50] private __gap;
 }
 
 // File: @openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.0 <0.8.0;
+
 
 /**
  * @dev Contract module which provides a basic access control mechanism, where
@@ -347,11 +332,12 @@ abstract contract OwnableUpgradeable is Initializable, ContextUpgradeable {
         emit OwnershipTransferred(_owner, newOwner);
         _owner = newOwner;
     }
-
     uint256[49] private __gap;
 }
 
 // File: @openzeppelin/contracts/token/ERC20/IERC20.sol
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -412,11 +398,7 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint256 amount
-    ) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -434,6 +416,8 @@ interface IERC20 {
 }
 
 // File: @openzeppelin/contracts/math/SafeMath.sol
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -602,11 +586,7 @@ library SafeMath {
      *
      * - Subtraction cannot overflow.
      */
-    function sub(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
+    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b <= a, errorMessage);
         return a - b;
     }
@@ -626,11 +606,7 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function div(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
+    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b > 0, errorMessage);
         return a / b;
     }
@@ -650,17 +626,15 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function mod(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
+    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b > 0, errorMessage);
         return a % b;
     }
 }
 
 // File: @openzeppelin/contracts/utils/Address.sol
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.2 <0.8.0;
 
@@ -692,9 +666,7 @@ library Address {
 
         uint256 size;
         // solhint-disable-next-line no-inline-assembly
-        assembly {
-            size := extcodesize(account)
-        }
+        assembly { size := extcodesize(account) }
         return size > 0;
     }
 
@@ -718,7 +690,7 @@ library Address {
         require(address(this).balance >= amount, "Address: insufficient balance");
 
         // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
-        (bool success, ) = recipient.call{value: amount}("");
+        (bool success, ) = recipient.call{ value: amount }("");
         require(success, "Address: unable to send value, recipient may have reverted");
     }
 
@@ -741,7 +713,7 @@ library Address {
      * _Available since v3.1._
      */
     function functionCall(address target, bytes memory data) internal returns (bytes memory) {
-        return functionCall(target, data, "Address: low-level call failed");
+      return functionCall(target, data, "Address: low-level call failed");
     }
 
     /**
@@ -750,11 +722,7 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(
-        address target,
-        bytes memory data,
-        string memory errorMessage
-    ) internal returns (bytes memory) {
+    function functionCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
         return functionCallWithValue(target, data, 0, errorMessage);
     }
 
@@ -769,11 +737,7 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(
-        address target,
-        bytes memory data,
-        uint256 value
-    ) internal returns (bytes memory) {
+    function functionCallWithValue(address target, bytes memory data, uint256 value) internal returns (bytes memory) {
         return functionCallWithValue(target, data, value, "Address: low-level call with value failed");
     }
 
@@ -783,17 +747,12 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(
-        address target,
-        bytes memory data,
-        uint256 value,
-        string memory errorMessage
-    ) internal returns (bytes memory) {
+    function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage) internal returns (bytes memory) {
         require(address(this).balance >= value, "Address: insufficient balance for call");
         require(isContract(target), "Address: call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.call{value: value}(data);
+        (bool success, bytes memory returndata) = target.call{ value: value }(data);
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -813,11 +772,7 @@ library Address {
      *
      * _Available since v3.3._
      */
-    function functionStaticCall(
-        address target,
-        bytes memory data,
-        string memory errorMessage
-    ) internal view returns (bytes memory) {
+    function functionStaticCall(address target, bytes memory data, string memory errorMessage) internal view returns (bytes memory) {
         require(isContract(target), "Address: static call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
@@ -841,11 +796,7 @@ library Address {
      *
      * _Available since v3.4._
      */
-    function functionDelegateCall(
-        address target,
-        bytes memory data,
-        string memory errorMessage
-    ) internal returns (bytes memory) {
+    function functionDelegateCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
         require(isContract(target), "Address: delegate call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
@@ -853,11 +804,7 @@ library Address {
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
-    function _verifyCallResult(
-        bool success,
-        bytes memory returndata,
-        string memory errorMessage
-    ) private pure returns (bytes memory) {
+    function _verifyCallResult(bool success, bytes memory returndata, string memory errorMessage) private pure returns(bytes memory) {
         if (success) {
             return returndata;
         } else {
@@ -879,7 +826,12 @@ library Address {
 
 // File: @openzeppelin/contracts/token/ERC20/SafeERC20.sol
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.0 <0.8.0;
+
+
+
 
 /**
  * @title SafeERC20
@@ -894,20 +846,11 @@ library SafeERC20 {
     using SafeMath for uint256;
     using Address for address;
 
-    function safeTransfer(
-        IERC20 token,
-        address to,
-        uint256 value
-    ) internal {
+    function safeTransfer(IERC20 token, address to, uint256 value) internal {
         _callOptionalReturn(token, abi.encodeWithSelector(token.transfer.selector, to, value));
     }
 
-    function safeTransferFrom(
-        IERC20 token,
-        address from,
-        address to,
-        uint256 value
-    ) internal {
+    function safeTransferFrom(IERC20 token, address from, address to, uint256 value) internal {
         _callOptionalReturn(token, abi.encodeWithSelector(token.transferFrom.selector, from, to, value));
     }
 
@@ -918,36 +861,23 @@ library SafeERC20 {
      * Whenever possible, use {safeIncreaseAllowance} and
      * {safeDecreaseAllowance} instead.
      */
-    function safeApprove(
-        IERC20 token,
-        address spender,
-        uint256 value
-    ) internal {
+    function safeApprove(IERC20 token, address spender, uint256 value) internal {
         // safeApprove should only be called when setting an initial allowance,
         // or when resetting it to zero. To increase and decrease it, use
         // 'safeIncreaseAllowance' and 'safeDecreaseAllowance'
         // solhint-disable-next-line max-line-length
-        require(
-            (value == 0) || (token.allowance(address(this), spender) == 0),
+        require((value == 0) || (token.allowance(address(this), spender) == 0),
             "SafeERC20: approve from non-zero to non-zero allowance"
         );
         _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));
     }
 
-    function safeIncreaseAllowance(
-        IERC20 token,
-        address spender,
-        uint256 value
-    ) internal {
+    function safeIncreaseAllowance(IERC20 token, address spender, uint256 value) internal {
         uint256 newAllowance = token.allowance(address(this), spender).add(value);
         _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
     }
 
-    function safeDecreaseAllowance(
-        IERC20 token,
-        address spender,
-        uint256 value
-    ) internal {
+    function safeDecreaseAllowance(IERC20 token, address spender, uint256 value) internal {
         uint256 newAllowance = token.allowance(address(this), spender).sub(value, "SafeERC20: decreased allowance below zero");
         _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
     }
@@ -964,8 +894,7 @@ library SafeERC20 {
         // the target address contains contract code and also asserts for success in the low-level call.
 
         bytes memory returndata = address(token).functionCall(data, "SafeERC20: low-level call failed");
-        if (returndata.length > 0) {
-            // Return data is optional
+        if (returndata.length > 0) { // Return data is optional
             // solhint-disable-next-line max-line-length
             require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
         }
@@ -974,7 +903,11 @@ library SafeERC20 {
 
 // File: @openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.6.0 <0.8.0;
+
+
 
 /**
  * @dev Contract module which allows children to implement an emergency stop
@@ -1064,11 +997,12 @@ abstract contract PausableUpgradeable is Initializable, ContextUpgradeable {
         _paused = false;
         emit Unpaused(_msgSender());
     }
-
     uint256[49] private __gap;
 }
 
 // File: contracts/interfaces/IERC20Permit.sol
+
+// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.6.12;
 
@@ -1086,7 +1020,9 @@ interface IERC20Permit {
 
 // File: contracts/interfaces/IOpenOceanCaller.sol
 
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.6.12;
+pragma experimental ABIEncoderV2;
 
 interface IOpenOceanCaller {
     struct CallDescription {
@@ -1103,6 +1039,7 @@ interface IOpenOceanCaller {
 
 // File: contracts/libraries/RevertReasonParser.sol
 
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
 
 library RevertReasonParser {
@@ -1142,11 +1079,11 @@ library RevertReasonParser {
         return string(abi.encodePacked(prefix, "Unknown()"));
     }
 
-    function _toHex(uint256 value) private pure returns (string memory) {
+    function _toHex(uint256 value) private pure returns(string memory) {
         return _toHex(abi.encodePacked(value));
     }
 
-    function _toHex(bytes memory data) private pure returns (string memory) {
+    function _toHex(bytes memory data) private pure returns(string memory) {
         bytes memory alphabet = "0123456789abcdef";
         bytes memory str = new bytes(2 + data.length * 2);
         str[0] = "0";
@@ -1161,7 +1098,11 @@ library RevertReasonParser {
 
 // File: contracts/libraries/UniversalERC20.sol
 
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.6.0;
+
+
+
 
 library UniversalERC20 {
     using SafeMath for uint256;
@@ -1223,7 +1164,17 @@ library UniversalERC20 {
 
 // File: contracts/OpenOceanExchange.sol
 
+// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.6.12;
+pragma experimental ABIEncoderV2;
+
+
+
+
+
+
+
 
 contract OpenOceanExchange is OwnableUpgradeable, PausableUpgradeable {
     using SafeMath for uint256;
