@@ -1,13 +1,21 @@
-import 'hardhat-deploy';
-import '@nomiclabs/hardhat-ethers';
-import '@eth-optimism/plugins/hardhat/compiler';
-import { HardhatUserConfig } from 'hardhat/types';
+import "hardhat-deploy";
+import "@nomiclabs/hardhat-ethers";
+import "@eth-optimism/plugins/hardhat/compiler";
+import { HardhatUserConfig } from "hardhat/types";
 
-import networks from './hardhat.network';
+import "@matterlabs/hardhat-zksync-deploy";
+import "@matterlabs/hardhat-zksync-solc";
+
+import networks from "./hardhat.network";
 
 const config: HardhatUserConfig = {
+    zksolc: {
+        version: "1.3.5",
+        compilerSource: "binary",
+        settings: {},
+    },
     solidity: {
-        version: '0.6.12',
+        version: "0.6.12",
         settings: {
             optimizer: {
                 enabled: true,
@@ -22,10 +30,10 @@ const config: HardhatUserConfig = {
         },
     },
     paths: {
-        sources: 'contracts',
+        sources: "contracts",
     },
     ovm: {
-        solcVersion: '0.6.12',
-    }
+        solcVersion: "0.6.12",
+    },
 };
 export default config;
